@@ -1,0 +1,17 @@
+services:
+  whisper-api:
+    build: .
+    container_name: whisper-api
+    ports:
+      - "9000:9000"
+    volumes:
+      - whisper-models:/app/models
+    networks:
+      - dokploy-network
+
+volumes:
+  whisper-models:
+
+networks:
+  dokploy-network:
+    external: true
