@@ -9,23 +9,19 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Clonar whisper.cpp y compilar
-RUN git clone --depth 1 https://github.com/ggerganov/whisper.cpp /app/whisper.cpp
-WORKDIR /app/whisper.cpp
-RUN make -j$(nproc)
+RUN git clone --depth 1 https://github.com/ggerganov/whisper.cpp /app/whisper.cpp \
+    && make -C /app/whisper.cpp -j$(nproc)
 
-# Volver al app root
-WORKDIR /app
-
-# Copiar API
+# Copiar requirements y API
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY main.py .
 
-# Crea carpeta models (se montará como volume en Dokploy)
+# Crear carpeta de modelos (se llenará con un volumen persistente en Dokploy)
 RUN mkdir -p /app/models
 
-# Exponer puerto
+# Exponer puerto (igual que en main.py uvicorn)
 EXPOSE 9000
 
 # Ejecutar uvicorn
