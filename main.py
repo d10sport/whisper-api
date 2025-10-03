@@ -55,7 +55,7 @@ async def transcribe(file: UploadFile = File(...)):
 
     try:
         proc = subprocess.run(
-            [WHISPER_BIN, "-m", MODEL_PATH, "-f", tmp_wav, "-otxt"],
+            [WHISPER_BIN, "-m", MODEL_PATH, "-f", tmp_wav, "-otxt", "-l", "es"],
             capture_output=True,
             text=True,
             check=True,
