@@ -2,19 +2,11 @@ services:
   whisper-api:
     build: .
     container_name: whisper-api
-    restart: always                # <--- agregado
+    restart: always
     ports:
       - "9000:9000"
     volumes:
       - whisper_models:/app/models
-    tty: true                      # <--- agregado
-    stdin_open: true               # <--- agregado
-    networks:
-      - dokploy-network            # <--- agregado
 
 volumes:
   whisper_models:
-
-networks:
-  dokploy-network:
-    external: true
