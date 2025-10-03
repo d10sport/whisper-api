@@ -5,7 +5,6 @@ RUN apt-get update && apt-get install -y \
     build-essential git wget cmake ffmpeg libsndfile1-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Crear directorio de trabajo
 WORKDIR /app
 
 # Clonar whisper.cpp y compilar
@@ -17,12 +16,11 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY main.py .
+COPY entrypoint.sh .
 
-# Crear carpeta de modelos (se llenará con un volumen persistente en Dokploy)
-RUN mkdir -p /app/models
+# Dar permisos de ejecución al entrypoint
+RUN chmod +x entrypoint.sh
 
-# Exponer puerto (igual que en main.py uvicorn)
 EXPOSE 9000
 
-# Ejecutar uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "9000"]
+CMD ["./entrypoint.sh"]
