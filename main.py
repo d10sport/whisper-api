@@ -55,12 +55,13 @@ async def transcribe(file: UploadFile = File(...)):
 
     try:
         proc = subprocess.run(
-            [WHISPER_BIN, "-m", MODEL_PATH, "-f", tmp_wav],
+            [WHISPER_BIN, "-m", MODEL_PATH, "-f", tmp_wav, "-otxt"],
             capture_output=True,
             text=True,
             check=True,
             timeout=300,
         )
+
         transcription = proc.stdout.strip()
     except subprocess.CalledProcessError as e:
         transcription = e.stdout + "\n" + e.stderr
