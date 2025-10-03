@@ -1,8 +1,8 @@
 FROM python:3.11-slim
 
-# Dependencias del sistema
+# Dependencias del sistema (incluye pkg-config que whisper.cpp necesita)
 RUN apt-get update && apt-get install -y \
-    build-essential git wget cmake ffmpeg libsndfile1-dev \
+    build-essential git wget cmake ffmpeg libsndfile1-dev pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -10,9 +10,8 @@ WORKDIR /app
 # Clonar whisper.cpp y compilar el binario main
 RUN git clone --depth 1 https://github.com/ggerganov/whisper.cpp /app/whisper.cpp \
     && cd /app/whisper.cpp \
-    && make -j$(nproc) \
+    && make main -j$(nproc) \
     && ls -lh /app/whisper.cpp \
-    && test -f /app/whisper.cpp/main \
     && chmod +x /app/whisper.cpp/main
 
 # Copiar requirements y API
