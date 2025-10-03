@@ -7,12 +7,12 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-# Clonar whisper.cpp, compilar y mover binario
+# Clonar whisper.cpp, compilar y mover binario actualizado
 RUN git clone --depth 1 https://github.com/ggerganov/whisper.cpp /app/whisper.cpp \
     && cd /app/whisper.cpp \
     && make -j$(nproc) \
     && ls -lh /app/whisper.cpp/build/bin \
-    && cp /app/whisper.cpp/build/bin/main /app/whisper.cpp/main \
+    && cp /app/whisper.cpp/build/bin/whisper-cli /app/whisper.cpp/main \
     && chmod +x /app/whisper.cpp/main
 
 # Copiar requirements y API
