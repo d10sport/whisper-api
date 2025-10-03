@@ -12,7 +12,7 @@ RUN git clone --depth 1 https://github.com/ggerganov/whisper.cpp /app/whisper.cp
     && cd /app/whisper.cpp \
     && make -j$(nproc) \
     && ls -lh /app/whisper.cpp/build/bin \
-    && cp /app/whisper.cpp/build/bin/whisper /app/whisper.cpp/main \
+    && cp /app/whisper.cpp/build/bin/main /app/whisper.cpp/main \
     && chmod +x /app/whisper.cpp/main
 
 # Copiar requirements y API
