@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   whisper-api:
     build: .
@@ -5,13 +7,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - whisper-models:/app/models
-    networks:
-      - dokploy-network
+      - whisper_models:/app/models
 
 volumes:
-  whisper-models:
-
-networks:
-  dokploy-network:
-    external: true
+  whisper_models:
